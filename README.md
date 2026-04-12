@@ -19,7 +19,7 @@ GPS-Standortermittlung, interaktive Karte, Preisfilter nach Kraftstoffart.
 
 ## Schnellstart (VPS)
 
-### 1. Repo klonen / Dateien hochladen
+### 1. Repo klonen
 
 ```bash
 git clone https://github.com/ATOMICMBAG/fueltracker.git
@@ -39,7 +39,6 @@ nano backend/.env
 | ----------------------- | -------- | ------------------------------------------ |
 | `TANKERKOENING_API_KEY` | Dein Key | https://creativecommons.tankerkoenig.de    |
 | `OCM_API_KEY`           | Dein Key | https://openchargemap.org/site/develop/api |
-| `ANTHROPIC_API_KEY`     | Optional | https://console.anthropic.com              |
 
 ### 3. Starten
 
@@ -114,8 +113,8 @@ fueltracker/
 │   │   ├── scrapers/      # Datenquellen
 │   │   │   ├── tankerkoening.js  # 🇩🇪 Stufe 1 Live
 │   │   │   ├── econtrol.js       # 🇦🇹 Stufe 2 Live
-│   │   │   ├── europe-fallback.js# 🌍 Stufe 3 Scraper
-│   │   │   └── ev-ocm.js         # ⚡ EV Open Charge Map
+│   │   │   ├── europe-fallback.js# Stufe 3 Scraper
+│   │   │   └── ev-ocm.js         # EV Open Charge Map
 │   │   ├── cache/
 │   │   │   ├── redis.js          # Redis-Wrapper
 │   │   │   └── database.js       # SQLite-Schema + Helpers
