@@ -1,0 +1,77 @@
+# ============================================================
+# FuelTracker — docker-compose.yml (Apache-Edition)
+# Nginx entfernt — Apache auf dem Host übernimmt den Proxy
+#
+# Ports nach außen:
+#   127.0.0.1:3101  → Backend API  (Apache leitet /api/ weiter)
+#   127.0.0.1:3102  → Frontend     (Apache liefert statisch ODER leitet weiter)
+#
+# Deploy: docker compose up -d --build
+# ============================================================
+
+version: "3.9"
+
+services:
+  # ── Frontend (React Build via nginx intern im Container) ──
+  # Lauscht nur auf localhost:3102 — Apache macht den Rest
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: fueltracker-frontend
+    ports:
+      - "127.0.0.1:3102:80"
+    restart: unless-stopped
+    networks:
+      - fuelnet
+
+  # ── Backend (Node.js / Fastify) ───────────────────────────
+  # Lauscht nur auf localhost:3101
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: fueltracker-backend
+    ports:
+      - "127.0.0.1:3101:3101"
+    restart: unless-stopped
+    env_file:
+      - ./backend/.env
+    volumes:
+      - fueldata:/data
+    depends_on:
+      redis:
+        condition: service_healthy
+    networks:
+      - fuelnet
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:3101/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+
+  # ── Redis Cache ───────────────────────────────────────────
+  redis:
+    image: redis:7-alpine
+    container_name: fueltracker-redis
+    command: redis-server --save 60 1 --loglevel warning --maxmemory 128mb --maxmemory-policy allkeys-lru
+    volumes:
+      - redisdata:/data
+    restart: unless-stopped
+    networks:
+      - fuelnet
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+
+# ── Volumes ────────────────────────────────────────────────
+volumes:
+  fueldata:
+  redisdata:
+
+# ── Networks ───────────────────────────────────────────────
+networks:
+  fuelnet:
+    driver: bridge
