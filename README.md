@@ -141,8 +141,6 @@ fueltracker/
 │   │   └── utils/
 │   │       └── api.js            # API-Client
 │   └── Dockerfile
-├── apache/
-│   └── fueltracker.conf          # Apache VirtualHost
 └── docker-compose.yml
 ```
 
