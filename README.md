@@ -177,19 +177,3 @@ fueltracker/
 Das Backend + Redis + Playwright braucht ca. **400-600 MB RAM** im Betrieb.
 
 ---
-
-## Weiterentwicklung (Roadmap | high prio)
-
-- [ ] Italien (PrezziBenzina API oder Scraper), Spanien (MITECO API), Niederlande (CBRB). Nutze europe-fallback.js erweitern oder neue scrapers/ (Playwright für dynamische Sites). OpenStreetMap Fallback für alle via Overpass API. Sag Bescheid, wenn implementieren!
-
----
-
-## https://fueltracker.maazi.de Weiterentwicklung (Roadmap)
-
-- [ ] Benachrichtigungen wenn Preis unter Schwellwert fällt
-- [ ] Preishistorie / Graphen (Chart.js)
-- [ ] Mobile App (React Native / PWA)
-- [ ] Routenplanung mit günstigsten Tankstellen entlang der Route
-- [ ] Mehr Länder via Playwright-Scraper (IT, ES, PL...)
-- [ ] Nutzerbewertungen für Tankstellen
-- [ ] Italien (PrezziBenzina API oder Scraper), Spanien (MITECO API), Niederlande (CBRB). Nutze europe-fallback.js erweitern oder neue scrapers/ (Playwright für dynamische Sites). OpenStreetMap Fallback für alle via Overpass API. Sag Bescheid, wenn implementieren!
