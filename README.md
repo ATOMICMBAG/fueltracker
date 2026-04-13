@@ -1,6 +1,6 @@
-# ⛽ FuelTracker 🇩🇪 | 🇦🇹 | 🇫🇷
+# ⛽ FuelTracker Europa
 
-Kraftstoffpreise in Echtzeit https://fueltracker.maazi.de — Deutschland, Österreich und Frankreich (Elektro für ganz EU und UN).
+Kraftstoffpreise in Echtzeit — Deutschland, DACH und ganz Europa.
 GPS-Standortermittlung, interaktive Karte, Preisfilter nach Kraftstoffart.
 
 ## Features
@@ -17,12 +17,14 @@ GPS-Standortermittlung, interaktive Karte, Preisfilter nach Kraftstoffart.
 
 ---
 
-## Schnellstart (VPS)
+## Schnellstart
 
-### 1. Repo klonen
+![pic](fueltracker.maazi.de.jpeg)
+
+### 1. Repo klonen / Dateien hochladen
 
 ```bash
-git clone https://github.com/ATOMICMBAG/fueltracker.git
+git clone https://github.com/dein-user/fueltracker.git
 cd fueltracker
 ```
 
@@ -39,6 +41,7 @@ nano backend/.env
 | ----------------------- | -------- | ------------------------------------------ |
 | `TANKERKOENING_API_KEY` | Dein Key | https://creativecommons.tankerkoenig.de    |
 | `OCM_API_KEY`           | Dein Key | https://openchargemap.org/site/develop/api |
+| `ANTHROPIC_API_KEY`     | Optional | https://console.anthropic.com              |
 
 ### 3. Starten
 
@@ -72,7 +75,7 @@ Sucht Tankstellen im Umkreis.
 | `limit`    | int    | 20       | Max. Ergebnisse                 |
 
 ```bash
-curl "https://fueltracker.maazi.de/api/v1/stations/nearby?lat=48.137&lng=11.576&radius=5&fuel=diesel"
+curl "https://yourdomain.com/api/v1/stations/nearby?lat=48.137&lng=11.576&radius=5&fuel=diesel"
 ```
 
 ### `GET /api/v1/ev/nearby`
@@ -111,10 +114,10 @@ fueltracker/
 │   │   │   ├── prices.js       # Preisübersicht
 │   │   │   └── ev.js           # EV-Ladesäulen
 │   │   ├── scrapers/      # Datenquellen
-│   │   │   ├── tankerkoening.js  # 🇩🇪 Stufe 1 Live
-│   │   │   ├── econtrol.js       # 🇦🇹 Stufe 2 Live
-│   │   │   ├── europe-fallback.js# Stufe 3 Scraper
-│   │   │   └── ev-ocm.js         # EV Open Charge Map
+│   │   │   ├── tankerkoening.js   # 🇩🇪 Stufe 1 Live
+│   │   │   ├── econtrol.js        # 🇦🇹 Stufe 2 Live
+│   │   │   ├── europe-fallback.js # Stufe 3 Scraper
+│   │   │   └── ev-ocm.js          # EV Open Charge Map
 │   │   ├── cache/
 │   │   │   ├── redis.js          # Redis-Wrapper
 │   │   │   └── database.js       # SQLite-Schema + Helpers
@@ -141,6 +144,8 @@ fueltracker/
 │   │   └── utils/
 │   │       └── api.js            # API-Client
 │   └── Dockerfile
+├── apache/
+│   └── fueltracker.conf          # Apache VirtualHost
 └── docker-compose.yml
 ```
 
