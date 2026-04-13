@@ -143,9 +143,13 @@ export default function Header() {
   return (
     <>
       <header style={s.header}>
-        <div style={s.logo}>
+        <div
+          style={{ ...s.logo, cursor: "pointer" }}
+          onClick={() => window.location.reload()}
+          title="Startseite neu laden"
+        >
           <div />
-          maazi.de
+          Fueltracker.maazi.de
         </div>
 
         <button
