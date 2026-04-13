@@ -66,6 +66,7 @@ export default function MapView() {
     filters,
     mapCenter,
     mapZoom,
+    sidebarOpen,
     setSelectedStation,
     setUserLocation,
   } = useStore((s) => ({
@@ -75,6 +76,7 @@ export default function MapView() {
     filters: s.filters,
     mapCenter: s.mapCenter,
     mapZoom: s.mapZoom,
+    sidebarOpen: s.sidebarOpen,
     setSelectedStation: s.setSelectedStation,
     setUserLocation: s.setUserLocation,
   }));
@@ -87,6 +89,8 @@ export default function MapView() {
       zoom: mapZoom,
       zoomControl: true,
       attributionControl: false,
+      tap: false, // verhindert doppeltes Touch-Handling auf iOS
+      bounceAtZoomLimits: false,
     });
 
     L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
@@ -101,6 +105,16 @@ export default function MapView() {
 
     leafletRef.current = map;
   }, []);
+
+  // Karte neu berechnen wenn Sidebar sich ändert (Problem: weiße Fläche)
+  useEffect(() => {
+    if (!leafletRef.current) return;
+    // kurz warten damit CSS-Transitions fertig sind
+    const timer = setTimeout(() => {
+      leafletRef.current.invalidateSize({ animate: false });
+    }, 320);
+    return () => clearTimeout(timer);
+  }, [sidebarOpen]);
 
   // Update user location marker
   useEffect(() => {
@@ -172,5 +186,15 @@ export default function MapView() {
     });
   }, [stations, evStations, filters.fuel]);
 
-  return <div ref={mapRef} style={{ flex: 1, height: "100%", zIndex: 1 }} />;
+  return (
+    <div
+      ref={mapRef}
+      style={{
+        flex: 1,
+        height: "100%",
+        zIndex: 1,
+        touchAction: "pan-x pan-y", // verhindert Pinch-Zoom des Browsers auf der Karte
+      }}
+    />
+  );
 }
