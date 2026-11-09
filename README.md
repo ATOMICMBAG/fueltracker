@@ -163,7 +163,7 @@ fueltracker/
 
 1. → https://openchargemap.org/site/develop/api
 2. Registrieren, Key sofort
-3. Kostenlos, kein Limit für normale Nutzung
+3. Kostenlos, kein Limit für normale Nutzung (abruf limit)
 
 ### E-Control AT (kein Key nötig!)
 
